@@ -1,0 +1,3 @@
+Playwright upload test fixture
+File: sample.txt
+Purpose: Verify TXT file upload.

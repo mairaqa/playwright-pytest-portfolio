@@ -1,0 +1,2 @@
+Playwright upload test fixture
+Filename contains spaces and parentheses.
