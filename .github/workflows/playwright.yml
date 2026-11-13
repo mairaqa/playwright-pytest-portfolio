@@ -67,17 +67,24 @@ jobs:
 
       - name: Audit Python dependencies
         continue-on-error: true
-        run: |
-          python -m pip_audit -r requirements.txt
+        run: python -m pip_audit -r requirements.txt
 
   tests:
-    name: Cross-browser Tests
+    name: Playwright Tests (${{ matrix.browser }})
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
     if: >-
       github.event_name != 'pull_request' ||
       github.event.pull_request.head.repo.full_name == github.repository
+
+    strategy:
+      fail-fast: false
+      matrix:
+        browser:
+          - chromium
+          - firefox
+          - webkit
 
     steps:
       - name: Checkout repository
@@ -94,21 +101,25 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -r requirements.txt
 
-      - name: Install Playwright browsers
-        run: python -m playwright install --with-deps
+      - name: Install Playwright browser
+        run: python -m playwright install --with-deps ${{ matrix.browser }}
 
       - name: Run tests
         env:
           BASE_URL: ${{ secrets.TEST_BASE_URL }}
           TEST_USERNAME: ${{ secrets.TEST_USERNAME }}
           TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
-        run: python -m pytest --env=dev -v -n 10
+        run: |
+          python -m pytest \
+            --env=dev \
+            --browser ${{ matrix.browser }} \
+            -v -n 5
 
       - name: Upload test reports
         if: always()
         uses: actions/upload-artifact@v5
         with:
-          name: playwright-test-reports
+          name: playwright-reports-${{ matrix.browser }}
           path: |
             reports/junit/
             reports/allure-results/
