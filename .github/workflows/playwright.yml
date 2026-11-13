@@ -67,17 +67,24 @@ jobs:
 
       - name: Audit Python dependencies
         continue-on-error: true
-        run: |
-          python -m pip_audit -r requirements.txt
+        run: python -m pip_audit -r requirements.txt
 
   tests:
-    name: Cross-browser Tests
+    name: Playwright Tests (${{ matrix.browser }})
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
     if: >-
       github.event_name != 'pull_request' ||
       github.event.pull_request.head.repo.full_name == github.repository
+
+    strategy:
+      fail-fast: false
+      matrix:
+        browser:
+          - chromium
+          - firefox
+          - webkit
 
     steps:
       - name: Checkout repository
@@ -94,23 +101,63 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -r requirements.txt
 
-      - name: Install Playwright browsers
-        run: python -m playwright install --with-deps
+      - name: Install Playwright browser
+        run: python -m playwright install --with-deps ${{ matrix.browser }}
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install Allure Commandline
+        run: npm install -g allure-commandline@2.46.1
 
       - name: Run tests
         env:
           BASE_URL: ${{ secrets.TEST_BASE_URL }}
           TEST_USERNAME: ${{ secrets.TEST_USERNAME }}
           TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
-        run: python -m pytest --env=dev -v -n 10
+        run: |
+          python -m pytest \
+            --env=dev \
+            --browser ${{ matrix.browser }} \
+            -v -n 0
 
-      - name: Upload test reports
+      - name: Generate Allure HTML report
+        if: success() || failure()
+        run: |
+          if [ -d reports/allure-results ] && \
+             [ -n "$(ls -A reports/allure-results)" ]; then
+            allure generate \
+              reports/allure-results \
+              --clean \
+              -o reports/allure-report
+          else
+            echo "No Allure results available"
+          fi
+
+      - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v5
         with:
-          name: playwright-test-reports
+          name: playwright-results-${{ matrix.browser }}
           path: |
             reports/junit/
             reports/allure-results/
+          if-no-files-found: warn
+          retention-days: 7
+
+      - name: Upload Allure HTML report
+        if: always()
+        uses: actions/upload-artifact@v5
+        with:
+          name: allure-html-${{ matrix.browser }}
+          path: reports/allure-report/
           if-no-files-found: warn
           retention-days: 7
