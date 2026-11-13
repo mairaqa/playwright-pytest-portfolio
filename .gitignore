@@ -9,3 +9,8 @@ __pycache__/
 reports/
 test-results/
 allure-results/
+
+# IDE configuration
+.idea/
+.vscode/
+.visualcode/
