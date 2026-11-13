@@ -99,10 +99,10 @@ jobs:
 
       - name: Run tests
         env:
-          BASE_URL: ${{ secrets.TEST_BASE_URL }}
-          USERNAME: ${{ secrets.TEST_USERNAME }}
-          PASSWORD: ${{ secrets.TEST_PASSWORD }}
-        run: python -m pytest --env=dev -v -n 0
+          TEST_BASE_URL: ${{ secrets.TEST_BASE_URL }}
+          TEST_USERNAME: ${{ secrets.TEST_USERNAME }}
+          TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
+        run: python -m pytest --env=dev -v -n 10
 
       - name: Upload test reports
         if: always()
