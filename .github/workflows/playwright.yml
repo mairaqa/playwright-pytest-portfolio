@@ -102,7 +102,66 @@ jobs:
           python -m pip install -r requirements.txt
 
       - name: Install Playwright browser
-        run: python -m playwright install --with-deps ${{ matrix.browser }}
+        run: |
+          python -m playwright install --with-deps ${{ matrix.browser }}
+
+      - name: Run tests
+        env:
+          BASE_URL: ${{ secrets.TEST_BASE_URL }}
+          TEST_USERNAME: ${{ secrets.TEST_USERNAME }}
+          TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
+        run: |
+          python -m pytest \
+            --env=dev \
+            --browser ${{ matrix.browser }} \
+            -v -n 0
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v5
+        with:
+          name: playwright-results-${{ matrix.browser }}
+          path: |
+            reports/allure-results/
+            reports/junit/
+          if-no-files-found: warn
+          retention-days: 7
+
+  report:
+    name: Allure Consolidated Report
+    needs: tests
+    if: ${{ always() && needs.tests.result != 'skipped' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Download browser results
+        uses: actions/download-artifact@v5
+        with:
+          pattern: playwright-results-*
+          path: reports/browser-results
+
+      - name: Merge Allure results
+        shell: bash
+        run: |
+          mkdir -p reports/merged-allure-results
+
+          for browser in chromium firefox webkit; do
+            source_dir="reports/browser-results/playwright-results-${browser}/allure-results"
+
+            if [ -d "$source_dir" ]; then
+              cp -a "$source_dir"/. reports/merged-allure-results/
+            else
+              echo "No Allure results for ${browser}"
+            fi
+          done
+
+          if ! find reports/merged-allure-results \
+            -name '*-result.json' -print -quit \
+            | grep -q .; then
+            echo "No Allure test results found"
+            exit 1
+          fi
 
       - name: Set up Java
         uses: actions/setup-java@v4
@@ -118,46 +177,33 @@ jobs:
       - name: Install Allure Commandline
         run: npm install -g allure-commandline@2.46.1
 
-      - name: Run tests
-        env:
-          BASE_URL: ${{ secrets.TEST_BASE_URL }}
-          TEST_USERNAME: ${{ secrets.TEST_USERNAME }}
-          TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
+      - name: Generate consolidated report
         run: |
-          python -m pytest \
-            --env=dev \
-            --browser ${{ matrix.browser }} \
-            -v -n 0
+          allure generate \
+            reports/merged-allure-results \
+            --clean \
+            -o reports/allure-report
 
-      - name: Generate Allure HTML report
-        if: success() || failure()
-        run: |
-          if [ -d reports/allure-results ] && \
-             [ -n "$(ls -A reports/allure-results)" ]; then
-            allure generate \
-              reports/allure-results \
-              --clean \
-              -o reports/allure-report
-          else
-            echo "No Allure results available"
-          fi
-
-      - name: Upload test results
-        if: always()
+      - name: Upload consolidated report
         uses: actions/upload-artifact@v5
         with:
-          name: playwright-results-${{ matrix.browser }}
-          path: |
-            reports/junit/
-            reports/allure-results/
-          if-no-files-found: warn
-          retention-days: 7
-
-      - name: Upload Allure HTML report
-        if: always()
-        uses: actions/upload-artifact@v5
-        with:
-          name: allure-html-${{ matrix.browser }}
+          name: allure-consolidated-report
           path: reports/allure-report/
-          if-no-files-found: warn
+          if-no-files-found: error
           retention-days: 7
+
+      - name: Add GitHub Actions summary
+        if: always()
+        shell: bash
+        run: |
+          {
+            echo "## Playwright Cross-Browser Report"
+            echo ""
+            echo "**Browsers:** Chromium, Firefox, WebKit"
+            echo ""
+            echo "**Test matrix result:** ${{ needs.tests.result }}"
+            echo ""
+            echo "Artifact: \`allure-consolidated-report\`"
+            echo ""
+            echo "[View workflow artifacts](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})"
+          } >> "$GITHUB_STEP_SUMMARY"
