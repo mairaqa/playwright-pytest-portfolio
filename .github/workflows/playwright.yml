@@ -134,12 +134,29 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
+    permissions:
+      contents: read
+      checks: write
+
     steps:
       - name: Download browser results
         uses: actions/download-artifact@v5
         with:
           pattern: playwright-results-*
           path: reports/browser-results
+
+      - name: Publish JUnit test report
+        if: ${{ !cancelled() }}
+        uses: dorny/test-reporter@v3
+        with:
+          name: Playwright Cross-Browser Results
+          path: reports/browser-results/**/junit/*.xml
+          reporter: python-xunit
+          use-actions-summary: "true"
+          list-suites: failed
+          list-tests: failed
+          fail-on-error: "false"
+          fail-on-empty: "true"
 
       - name: Merge Allure results
         shell: bash
@@ -191,19 +208,3 @@ jobs:
           path: reports/allure-report/
           if-no-files-found: error
           retention-days: 7
-
-      - name: Add GitHub Actions summary
-        if: always()
-        shell: bash
-        run: |
-          {
-            echo "## Playwright Cross-Browser Report"
-            echo ""
-            echo "**Browsers:** Chromium, Firefox, WebKit"
-            echo ""
-            echo "**Test matrix result:** ${{ needs.tests.result }}"
-            echo ""
-            echo "Artifact: \`allure-consolidated-report\`"
-            echo ""
-            echo "[View workflow artifacts](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})"
-          } >> "$GITHUB_STEP_SUMMARY"
