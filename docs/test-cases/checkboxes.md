@@ -77,13 +77,16 @@ Verify that checkbox controls are displayed correctly, support checking and unch
 
 **Steps:**
 1. Navigate to `/checkboxes`.
-2. Record the initial state of checkbox 2.
-3. Change the state of checkbox 1.
-4. Verify the state of checkbox 2.
+2. Record the initial states of both checkboxes.
+3. Change the state of the target checkbox.
+4. Verify that the target checkbox changes state.
+5. Verify that the other checkbox retains its original state.
+6. Repeat the scenario using the other checkbox as the target.
 
 **Expected Results:**
-- Checkbox 1 changes state.
-- Checkbox 2 retains its original state.
+- CHK-005-A: Changing checkbox 1 does not affect checkbox 2.
+- CHK-005-B: Changing checkbox 2 does not affect checkbox 1.
+- Both scenarios are executed independently using pytest parametrization.
 
 ### CHK-006 — Toggle Checkbox Multiple Times
 

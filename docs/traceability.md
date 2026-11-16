@@ -1,7 +1,7 @@
 # Requirements Traceability Matrix
 
 **Project:** Playwright Python QA Framework  
-**Modules:** Authentication, Checkboxes, JavaScript Alerts  
+**Modules:** Authentication, Checkboxes, JavaScript Alerts, Upload
 **Version:** 1.1  
 **Status:** Draft — Pending execution verification
 
@@ -38,8 +38,8 @@ The traceability matrix supports requirement coverage analysis, test maintenance
 | REQ-CHK-002 | CHK-002 | `test_initial_checkbox_states` |
 | REQ-CHK-003 | CHK-003 | `test_change_checkbox_state[CHK-003-check-checkbox]` |
 | REQ-CHK-003 | CHK-004 | `test_change_checkbox_state[CHK-004-uncheck-checkbox]` |
-| REQ-CHK-004 | CHK-005 | `test_checkbox_independence[CHK-005-first-to-second]` |
-| REQ-CHK-004 | CHK-005 | `test_checkbox_independence[CHK-005-second-to-first]` |
+| REQ-CHK-004 | CHK-005 | `test_checkbox_independence[CHK-005-A-first-checkbox]` |
+| REQ-CHK-004 | CHK-005 | `test_checkbox_independence[CHK-005-B-second-checkbox]` |
 | REQ-CHK-005 | CHK-006 | `test_toggle_checkbox_multiple_times` |
 | REQ-CHK-006 | CHK-007 | `test_set_all_checkboxes[CHK-007-check-all]` |
 | REQ-CHK-006 | CHK-008 | `test_set_all_checkboxes[CHK-008-uncheck-all]` |
@@ -60,19 +60,42 @@ The traceability matrix supports requirement coverage analysis, test maintenance
 | REQ-JSA-007 | JSA-007 | `test_javascript_dialog_properties[JSA-007-confirm]` |
 | REQ-JSA-007 | JSA-007 | `test_javascript_dialog_properties[JSA-007-prompt]` |
 
+### 2.4 Upload
+
+**Test Module:** `tests/test_upload.py`
+
+| Requirement | Test Case | Automated Test |
+|---|---|---|
+| REQ-UPL-001 | UPL-001 | `test_upload_form_is_displayed` |
+| REQ-UPL-002 | UPL-002 | `test_upload_file[UPL-002-txt]` |
+| REQ-UPL-002 | UPL-003 | `test_upload_file[UPL-003-pdf]` |
+| REQ-UPL-002 | UPL-004 | `test_upload_file[UPL-004-png]` |
+| REQ-UPL-003 | UPL-002 | `test_upload_file[UPL-002-txt]` |
+| REQ-UPL-003 | UPL-003 | `test_upload_file[UPL-003-pdf]` |
+| REQ-UPL-003 | UPL-004 | `test_upload_file[UPL-004-png]` |
+| REQ-UPL-003 | UPL-005 | `test_upload_file[UPL-005-special-filename]` |
+| REQ-UPL-004 | UPL-006 | `test_upload_file[UPL-006-empty-file]` |
+| REQ-UPL-005 | UPL-007 | `test_upload_without_file` |
+| REQ-UPL-006 | UPL-008 | `test_upload_using_drag_and_drop` |
+| REQ-UPL-007 | UPL-002 | `test_upload_file[UPL-002-txt]` |
+| REQ-UPL-007 | UPL-003 | `test_upload_file[UPL-003-pdf]` |
+| REQ-UPL-007 | UPL-004 | `test_upload_file[UPL-004-png]` |
+| REQ-UPL-007 | UPL-005 | `test_upload_file[UPL-005-special-filename]` |
+| REQ-UPL-007 | UPL-006 | `test_upload_file[UPL-006-empty-file]` |
+
 ## 3. Automation Coverage
 
 ### 3.1 Coverage by Module
 
-| Metric | Authentication | Checkboxes | JavaScript Alerts | Total |
-|---|---:|---:|---:|---:|
-| Defined requirements | 6 | 6 | 7 | 19 |
-| Defined test cases | 8 | 8 | 7 | 23 |
-| Automated test functions | 5 | 6 | 2 | 13 |
-| Planned pytest executions | 8 | 9 | 9 | 26 |
-| Requirements mapped to automation | 6 | 6 | 7 | 19 |
-| Planned requirement mapping coverage | 100% | 100% | 100% | 100% |
-| Verified execution coverage | Pending | Pending | Pending | Pending |
+| Metric | Authentication | Checkboxes | JavaScript Alerts | Upload | Total |
+|---|---:|---:|---:|---:|---:|
+| Defined requirements | 6 | 6 | 7 | 7 | 26 |
+| Defined test cases | 8 | 8 | 7 | 8 | 31 |
+| Automated test functions | 5 | 6 | 2 | 4 | 17 |
+| Planned pytest executions | 8 | 9 | 9 | 8 | 34 |
+| Requirements mapped to automation | 6 | 6 | 7 | 7 | 26 |
+| Planned requirement mapping coverage | 100% | 100% | 100% | 100% | 100% |
+| Verified execution coverage | Pending | Pending | Pending | Pending | Pending |
 
 ### 3.2 Coverage Definitions
 
@@ -98,19 +121,25 @@ The existence of an automated test does not guarantee successful execution or co
 - `tests/test_login.py`
 - `tests/test_checkboxes.py`
 - `tests/test_javascript_alerts.py`
+- `tests/test_upload.py`
 
 **Reporting Tools:**
-- Allure Report — Test execution results and reporting
-- JUnit XML — CI/CD integration
-- Playwright Trace Viewer — Failure investigation
+- Allure Report — Consolidated HTML report containing results from Chromium, Firefox, and WebKit.
+- JUnit XML — Test execution results and CI/CD integration.
+- dorny/test-reporter — Automated test results published through GitHub Checks and GitHub Actions Summary.
+- Playwright Trace Viewer — Browser trace analysis for failed tests.
 
 **Execution Configuration:**
-- Environment selection through `--env`
-- Parallel execution through `pytest-xdist`
-- Browser configuration through pytest-playwright
-- Environment-specific configuration and credentials
+- Environment selection through `--env`.
+- Cross-browser execution using Chromium, Firefox, and WebKit.
+- Parallel browser execution through GitHub Actions Matrix.
+- Sequential test execution within each browser job (`-n 0`).
+- Optional test-level parallelism through `pytest-xdist`.
+- Browser configuration through `pytest-playwright`.
+- Environment-specific configuration and credentials.
+- Automated CI/CD execution on pushes, pull requests targeting `main`, and manual workflow dispatch.
 
-**Execution Status:** Pending verification against actual pytest and Allure results.
+**Execution Status:** Automated cross-browser execution is configured in GitHub Actions. Successful execution coverage must be verified against the latest CI results and generated reports.
 
 ## 5. Maintenance Rules
 
@@ -126,28 +155,32 @@ The existence of an automated test does not guarantee successful execution or co
 
 ## 6. Current Status
 
-Three functional modules are included in the traceability matrix:
+Four functional modules are included in the traceability matrix:
 
 1. Authentication
 2. Checkboxes
 3. JavaScript Alerts
+4. Upload
 
-All 19 defined requirements are mapped to at least one automated test scenario.
+The framework currently includes 26 documented functional requirements and 31 documented test cases, represented by 17 automated test functions and 34 pytest executions per browser.
 
-The framework currently includes 23 documented test cases, represented by 13 automated test functions and 26 planned pytest executions.
+All 26 functional requirements are mapped to automated test scenarios, resulting in 100% planned requirement mapping coverage.
 
-Actual execution results, test stability, and requirement acceptance must be verified before the modules are considered complete.
+The CHK-005 test case uses two independent pytest parameterizations to verify checkbox independence in both directions.
 
-The Checkboxes execution count assumes that CHK-005 is parameterized to verify independence in both directions.
+The expected behavior for empty file uploads (REQ-UPL-004) and drag-and-drop uploads (REQ-UPL-006) remains subject to final execution verification.
 
+Execution results must be verified using current pytest, GitHub Actions, and Allure reports before claiming successful cross-browser execution coverage.
 ## 7. Related Documentation
 
 **Functional Requirements:**
 - `docs/requirements/authentication.md`
 - `docs/requirements/checkboxes.md`
 - `docs/requirements/javascript_alerts.md`
+- `docs/requirements/upload.md`
 
 **Test Cases:**
 - `docs/test-cases/authentication.md`
 - `docs/test-cases/checkboxes.md`
 - `docs/test-cases/javascript_alerts.md`
+- `docs/test-cases/upload.md`

@@ -27,3 +27,16 @@ SET_ALL_CASES = [
         id="CHK-008-uncheck-all",
     ),
 ]
+
+CHECKBOX_INDEPENDENCE_CASES = [
+    pytest.param(
+        0,
+        1,
+        id="CHK-005-A-first-checkbox",
+    ),
+    pytest.param(
+        1,
+        0,
+        id="CHK-005-B-second-checkbox",
+    ),
+]
