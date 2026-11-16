@@ -16,15 +16,17 @@ def test_login_with_valid_credentials(
     secure_page: SecureAreaPage,
     settings: Settings,
 ) -> None:
+    username, password = settings.require_credentials()
+
     login_page.navigate()
     login_page.login(
-        username=settings.username,
-        password=settings.password,
+        username=username,
+        password=password,
     )
 
     expect_path(page, secure_page.PATH)
     expect(secure_page.username_hint).to_have_text(
-        settings.username
+        username
     )
     expect(secure_page.logout_button).to_be_visible()
 

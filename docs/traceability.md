@@ -155,7 +155,7 @@ The existence of an automated test does not guarantee successful execution or co
 
 ## 6. Current Status
 
-Three functional modules are included in the traceability matrix:
+Four functional modules are included in the traceability matrix:
 
 1. Authentication
 2. Checkboxes

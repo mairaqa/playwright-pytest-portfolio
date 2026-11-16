@@ -17,6 +17,7 @@ def test_checkboxes_are_displayed(
 
     for checkbox in checkboxes_page.checkboxes.all():
         expect(checkbox).to_be_visible()
+        expect(checkbox).to_be_enabled()
 
 
 def test_initial_checkbox_states(
@@ -69,8 +70,8 @@ def test_checkbox_independence(
     """
     checkboxes_page.navigate()
 
-    target = checkboxes_page.checkboxes.nth(target_index)
-    other = checkboxes_page.checkboxes.nth(other_index)
+    target = checkboxes_page.checkbox(target_index)
+    other = checkboxes_page.checkbox(other_index)
 
     initial_target_state = target.is_checked()
     initial_other_state = other.is_checked()

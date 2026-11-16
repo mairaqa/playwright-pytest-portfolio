@@ -24,7 +24,7 @@ def test_upload_file(upload_page: UploadPage,case: UploadCase,) -> None:
     file_path = UPLOAD_DIR / case.filename
 
     assert file_path.is_file(), f"Test resource not found: {file_path}"
-    if case.id == "UPL-006":
+    if case.id == "UPL-006-empty-file":
         assert file_path.stat().st_size == 0, (
             "UPL-006 requires an empty file"
         )
