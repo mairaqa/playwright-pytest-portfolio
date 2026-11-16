@@ -2,7 +2,7 @@
 import pytest
 from playwright.sync_api import expect
 
-from data.checkboxes_cases import CHANGE_STATE_CASES, SET_ALL_CASES
+from data.checkboxes_cases import CHANGE_STATE_CASES, SET_ALL_CASES, CHECKBOX_INDEPENDENCE_CASES
 from pages.checkboxes_page import CheckboxesPage
 
 
@@ -50,26 +50,35 @@ def test_change_checkbox_state(
     )
 
 
+@pytest.mark.regression
+@pytest.mark.parametrize(
+    ("target_index", "other_index"),
+    CHECKBOX_INDEPENDENCE_CASES,
+)
 def test_checkbox_independence(
     checkboxes_page: CheckboxesPage,
+    target_index: int,
+    other_index: int,
 ) -> None:
-    """Verify toggling one checkbox does not change another.
+    """Verify that changing one checkbox does not affect the other.
 
-    The scenario runs in both directions to validate
-    independent checkbox behavior.
+    Args:
+        checkboxes_page: Checkbox page object fixture.
+        target_index: Index of the checkbox to modify.
+        other_index: Index of the checkbox that must remain unchanged.
     """
     checkboxes_page.navigate()
 
-    first_checkbox = checkboxes_page.checkbox(0)
-    second_checkbox = checkboxes_page.checkbox(1)
+    target = checkboxes_page.checkboxes.nth(target_index)
+    other = checkboxes_page.checkboxes.nth(other_index)
 
-    expect(first_checkbox).not_to_be_checked()
-    expect(second_checkbox).to_be_checked()
+    initial_target_state = target.is_checked()
+    initial_other_state = other.is_checked()
 
-    checkboxes_page.check(0)
+    target.set_checked(not initial_target_state)
 
-    expect(first_checkbox).to_be_checked()
-    expect(second_checkbox).to_be_checked()
+    expect(target).to_be_checked(checked=not initial_target_state)
+    expect(other).to_be_checked(checked=initial_other_state)
 
 
 def test_toggle_checkbox_multiple_times(

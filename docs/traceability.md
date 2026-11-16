@@ -138,7 +138,9 @@ The framework currently includes 23 documented test cases, represented by 13 aut
 
 Actual execution results, test stability, and requirement acceptance must be verified before the modules are considered complete.
 
-The Checkboxes execution count assumes that CHK-005 is parameterized to verify independence in both directions.
+The CHK-005 test case is implemented through two independent pytest parameterizations, verifying checkbox independence in both directions.
+
+Both automated scenarios are mapped to REQ-CHK-004 and included in the Checkboxes execution count.
 
 ## 7. Related Documentation
 
