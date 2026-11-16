@@ -1,7 +1,7 @@
 # Requirements Traceability Matrix
 
 **Project:** Playwright Python QA Framework  
-**Modules:** Authentication, Checkboxes, JavaScript Alerts  
+**Modules:** Authentication, Checkboxes, JavaScript Alerts, Upload
 **Version:** 1.1  
 **Status:** Draft — Pending execution verification
 
@@ -60,19 +60,35 @@ The traceability matrix supports requirement coverage analysis, test maintenance
 | REQ-JSA-007 | JSA-007 | `test_javascript_dialog_properties[JSA-007-confirm]` |
 | REQ-JSA-007 | JSA-007 | `test_javascript_dialog_properties[JSA-007-prompt]` |
 
+### 2.4 Upload
+
+**Test Module:** `tests/test_upload.py`
+
+| Requirement | Test Case | Automated Test |
+|---|---|---|
+| Pending | UPL-001 | `test_upload_form_is_displayed` |
+| Pending | UPL-002 | `test_upload_file[UPL-002]` |
+| Pending | UPL-003 | `test_upload_file[UPL-003]` |
+| Pending | UPL-004 | `test_upload_file[UPL-004]` |
+| Pending | UPL-005 | `test_upload_file[UPL-005]` |
+| Pending | UPL-006 | `test_upload_file[UPL-006]` |
+| Pending | UPL-007 | `test_upload_without_file` |
+| Pending | UPL-008 | `test_upload_using_drag_and_drop` |
+
 ## 3. Automation Coverage
 
 ### 3.1 Coverage by Module
 
-| Metric | Authentication | Checkboxes | JavaScript Alerts | Total |
-|---|---:|---:|---:|---:|
-| Defined requirements | 6 | 6 | 7 | 19 |
-| Defined test cases | 8 | 8 | 7 | 23 |
-| Automated test functions | 5 | 6 | 2 | 13 |
-| Planned pytest executions | 8 | 9 | 9 | 26 |
-| Requirements mapped to automation | 6 | 6 | 7 | 19 |
-| Planned requirement mapping coverage | 100% | 100% | 100% | 100% |
-| Verified execution coverage | Pending | Pending | Pending | Pending |
+| Metric | Authentication | Checkboxes | JavaScript Alerts | Upload | Total |
+|---|---:|---:|---:|---:|---:|
+| Defined requirements | 6 | 6 | 7 | 7 | 26 |
+| Defined test cases | 8 | 8 | 7 | 8 | 31 |
+| Automated test functions | 5 | 6 | 2 | 4 | 17 |
+| Planned pytest executions | 8 | 9 | 9 | 8 | 34 |
+| Requirements mapped to automation | 6 | 6 | 7 | Pending | Pending |
+| Planned requirement mapping coverage | 100% | 100% | 100% | Pending | Pending |
+| Verified execution coverage | Pending | Pending | Pending | Pending | Pending |
+
 
 ### 3.2 Coverage Definitions
 
@@ -98,19 +114,25 @@ The existence of an automated test does not guarantee successful execution or co
 - `tests/test_login.py`
 - `tests/test_checkboxes.py`
 - `tests/test_javascript_alerts.py`
+- `tests/test_upload.py`
 
 **Reporting Tools:**
-- Allure Report — Test execution results and reporting
-- JUnit XML — CI/CD integration
-- Playwright Trace Viewer — Failure investigation
+- Allure Report — Consolidated HTML report containing results from Chromium, Firefox, and WebKit.
+- JUnit XML — Test execution results and CI/CD integration.
+- dorny/test-reporter — Automated test results published through GitHub Checks and GitHub Actions Summary.
+- Playwright Trace Viewer — Browser trace analysis for failed tests.
 
 **Execution Configuration:**
-- Environment selection through `--env`
-- Parallel execution through `pytest-xdist`
-- Browser configuration through pytest-playwright
-- Environment-specific configuration and credentials
+- Environment selection through `--env`.
+- Cross-browser execution using Chromium, Firefox, and WebKit.
+- Parallel browser execution through GitHub Actions Matrix.
+- Sequential test execution within each browser job (`-n 0`).
+- Optional test-level parallelism through `pytest-xdist`.
+- Browser configuration through `pytest-playwright`.
+- Environment-specific configuration and credentials.
+- Automated CI/CD execution on pushes, pull requests targeting `main`, and manual workflow dispatch.
 
-**Execution Status:** Pending verification against actual pytest and Allure results.
+**Execution Status:** Automated cross-browser execution is configured in GitHub Actions. Successful execution coverage must be verified against the latest CI results and generated reports.
 
 ## 5. Maintenance Rules
 
@@ -131,16 +153,15 @@ Three functional modules are included in the traceability matrix:
 1. Authentication
 2. Checkboxes
 3. JavaScript Alerts
+4. Upload
 
-All 19 defined requirements are mapped to at least one automated test scenario.
+The framework currently includes 26 documented functional requirements and 31 documented test cases, represented by 17 automated test functions and 34 pytest executions per browser.
 
-The framework currently includes 23 documented test cases, represented by 13 automated test functions and 26 planned pytest executions.
+The CHK-005 test case uses two independent pytest parameterizations to verify checkbox independence in both directions.
 
-Actual execution results, test stability, and requirement acceptance must be verified before the modules are considered complete.
+Requirement mapping coverage for Upload is pending final verification against its requirements and test-case documentation.
 
-The CHK-005 test case is implemented through two independent pytest parameterizations, verifying checkbox independence in both directions.
-
-Both automated scenarios are mapped to REQ-CHK-004 and included in the Checkboxes execution count.
+Execution results must be verified using current pytest, GitHub Actions, and Allure reports before claiming successful cross-browser execution coverage.
 
 ## 7. Related Documentation
 
@@ -148,8 +169,10 @@ Both automated scenarios are mapped to REQ-CHK-004 and included in the Checkboxe
 - `docs/requirements/authentication.md`
 - `docs/requirements/checkboxes.md`
 - `docs/requirements/javascript_alerts.md`
+- `docs/requirements/upload.md`
 
 **Test Cases:**
 - `docs/test-cases/authentication.md`
 - `docs/test-cases/checkboxes.md`
 - `docs/test-cases/javascript_alerts.md`
+- `docs/test-cases/upload.md`

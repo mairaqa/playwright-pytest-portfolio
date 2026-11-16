@@ -16,28 +16,16 @@ def authenticated_user(
     secure_page: SecureAreaPage,
     settings: Settings,
 ) -> SecureAreaPage:
-    """Provide access to the Secure Area after authentication.
+    """Provide an authenticated browser session for a test."""
+    username, password = settings.require_credentials()
 
-    Log in using the configured environment credentials and verify
-    the destination URL and authenticated username.
-
-    The fixture uses a function-scoped browser page, keeping
-    authentication state isolated between tests.
-
-    Args:
-        page: Browser page used for authentication.
-        login_page: Page Object for the login form.
-        secure_page: Page Object for the protected area.
-        settings: Environment configuration containing credentials.
-
-    Returns:
-        Secure Area Page Object after successful authentication.
-    """
     login_page.navigate()
-
-    login_page.login(username=settings.username,password=settings.password,)
+    login_page.login(
+        username=username,
+        password=password,
+    )
 
     expect_path(page, secure_page.PATH)
-    expect(secure_page.username_hint).to_have_text(settings.username)
+    expect(secure_page.username_hint).to_have_text(username)
 
     return secure_page

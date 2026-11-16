@@ -60,13 +60,16 @@ def test_login_with_invalid_credentials(
     None preserves the environment credential, while an empty
     string explicitly tests a missing credential.
     """
+    valid_username, valid_password = settings.require_credentials()
+
     username = (
-        settings.username
+        valid_username
         if case.username_override is None
         else case.username_override
     )
+
     password = (
-        settings.password
+        valid_password
         if case.password_override is None
         else case.password_override
     )
@@ -81,7 +84,6 @@ def test_login_with_invalid_credentials(
     expect(login_page.error_message).to_contain_text(
         case.expected_error
     )
-
 
 @pytest.mark.security
 def test_access_secure_page_without_authentication(
