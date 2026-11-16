@@ -1,19 +1,28 @@
-"""Provide reusable Playwright assertions."""
+"""Reusable assertions for Playwright tests."""
 
 import re
 
 from playwright.sync_api import Page, expect
 
 
-def expect_path(page: Page, path: str) -> None:
-    """Verify that the current page URL ends with the expected path.
+def expect_path(page: Page, expected_path: str) -> None:
+    """Assert that the current URL has the exact expected path.
 
-    Allow an optional trailing slash, query string, or fragment
-    without depending on the application's base URL.
+    Query parameters and URL fragments are allowed after the path.
 
     Args:
         page: Playwright page to validate.
-        path: Expected URL path, such as "/login" or "/secure".
+        expected_path: Expected absolute URL path, starting with '/'.
+
+    Raises:
+        ValueError: If the expected path is not absolute.
+        AssertionError: If the URL does not match the expected path.
     """
-    pattern = rf"{re.escape(path.rstrip('/'))}/?(?:[?#].*)?$"
-    expect(page).to_have_url(re.compile(pattern))
+    if not expected_path.startswith("/"):
+        raise ValueError("expected_path must start with '/'")
+
+    pattern = re.compile(
+        rf"^https?://[^/?#]+{re.escape(expected_path)}(?:[?#].*)?$"
+    )
+
+    expect(page).to_have_url(pattern)
