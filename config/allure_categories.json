@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Infrastructure Issues",
+    "matchedStatuses": ["failed", "broken"],
+    "messageRegex": "(?s).*(?:net::ERR_(?:NAME_NOT_RESOLVED|CONNECTION_REFUSED|CONNECTION_RESET|CONNECTION_CLOSED|INTERNET_DISCONNECTED|NETWORK_CHANGED)|NS_ERROR_(?:UNKNOWN_HOST|CONNECTION_REFUSED|NET_RESET)|Could not resolve host|Temporary failure in name resolution|Name or service not known|The Internet connection appears to be offline|Could not connect to the server|A server with the specified hostname could not be found).*"
+  },
+  {
+    "name": "UI Synchronization Issues",
+    "matchedStatuses": ["broken"],
+    "messageRegex": "(?s).*(?:playwright\\._impl\\._errors\\.TimeoutError: )?(?:Page\\.(?:goto|wait_for_url|wait_for_selector|wait_for_load_state)|Locator\\.[a-z_]+|Frame\\.(?:goto|wait_for_selector)):\\s*Timeout [0-9]+ms exceeded\\..*"
+  },
+  {
+    "name": "Assertion Failures",
+    "matchedStatuses": ["failed"],
+    "messageRegex": "(?s)^(?:AssertionError(?::|\\s|$)|assert\\s).*"
+  }
+]
