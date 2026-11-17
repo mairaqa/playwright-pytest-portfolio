@@ -1,0 +1,32 @@
+# Private configuration must never enter the build context.
+.env
+.env.*
+**/.env
+**/.env.*
+
+.git
+.venv
+venv
+**/__pycache__
+**/*.py[cod]
+.pytest_cache
+.mypy_cache
+.ruff_cache
+
+reports
+test-results
+allure-results
+allure-report
+
+.idea
+.vscode
+.visualcode
+.codex
+.agents
+.aws
+*.log
+
+# Documentation and local tooling are not needed by the test image.
+docs
+README.md
+.github

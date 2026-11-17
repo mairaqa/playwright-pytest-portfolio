@@ -1,0 +1,23 @@
+services:
+  playwright:
+    build: .
+    init: true
+    shm_size: "1gb"
+    # Match the host user when writing bind-mounted artifacts on Linux.
+    user: "${LOCAL_UID:-1000}:${LOCAL_GID:-1000}"
+    env_file:
+      # Select this file separately from pytest's --env option.
+      - path: ${TEST_ENV_FILE:-.env.dev}
+        required: false
+    volumes:
+      # Create these directories on the host before the first run.
+      - type: bind
+        source: ./reports
+        target: /app/reports
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ./test-results
+        target: /app/test-results
+        bind:
+          create_host_path: false
