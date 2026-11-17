@@ -161,27 +161,16 @@ jobs:
           fail-on-error: "false"
           fail-on-empty: "true"
 
+      - name: Set up Python for report consolidation
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+
       - name: Merge Allure results
-        shell: bash
         run: |
-          mkdir -p reports/merged-allure-results
-
-          for browser in chromium firefox webkit; do
-            source_dir="reports/browser-results/playwright-results-${browser}/allure-results"
-
-            if [ -d "$source_dir" ]; then
-              cp -a "$source_dir"/. reports/merged-allure-results/
-            else
-              echo "No Allure results for ${browser}"
-            fi
-          done
-
-          if ! find reports/merged-allure-results \
-            -name '*-result.json' -print -quit \
-            | grep -q .; then
-            echo "No Allure test results found"
-            exit 1
-          fi
+          python -m utils.allure_metadata \
+            reports/browser-results \
+            reports/merged-allure-results
 
       - name: Set up Java
         uses: actions/setup-java@v4

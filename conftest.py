@@ -1,4 +1,5 @@
 pytest_plugins = [
+    "fixtures.allure_metadata",
     "fixtures.environment",
     "fixtures.pages",
     "fixtures.authentication",
