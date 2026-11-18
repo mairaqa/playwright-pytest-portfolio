@@ -6,7 +6,7 @@
 **Application:** https://the-internet.herokuapp.com/upload  
 **Test Case Prefix:** UPL  
 **Framework:** pytest + Playwright (Python)  
-**Status:** Draft — Pending execution
+**Status:** Approved — Passed 24/24 test instances across Chromium, Firefox, and WebKit
 
 ## 2. Preconditions
 
@@ -131,7 +131,8 @@
 
 ### UPL-006 — Upload an Empty File
 
-**Requirements:** REQ-UPL-004, REQ-UPL-007 (conditional)  
+**Requirements:** REQ-UPL-004, REQ-UPL-007
+
 **Priority:** Medium  
 **Type:** Boundary Value / Functional  
 **Test Data:** `empty.txt` (0 bytes)  
@@ -148,10 +149,10 @@
 **Expected Result**
 
 - The application processes the submission and produces an observable result.
-- Whether the file is accepted or rejected must be confirmed through execution.
-- If accepted, the filename should be displayed correctly.
+- The empty file is accepted.
+- The application displays the successful upload confirmation and `empty.txt`.
 
-**Status:** Expected success/rejection behavior pending verification. The current automated test assumes successful upload.
+**Status:** Passed in the successful full cross-browser run recorded in the traceability matrix.
 
 ---
 
@@ -203,7 +204,7 @@
 - A successful upload state is displayed.
 - The displayed filename matches the selected resource.
 
-**Status:** Pending verification of the simulated drag-and-drop interaction and upload result.
+**Status:** Passed in the successful full cross-browser run recorded in the traceability matrix.
 
 ## 4. Automation Mapping
 
@@ -228,15 +229,15 @@
 - Documented test cases: 8
 - Automated test functions: 4
 - Planned pytest executions: 8
-- Execution status: Pending complete validation
-- Open behavioral validations: UPL-006 and UPL-008
+- Execution status: Passed — 24/24 test instances across Chromium, Firefox, and WebKit
+- Open behavioral validations: None
 
 ## 6. Execution Evidence
 
-Execution results will be collected using:
+The successful full cross-browser run was recorded using:
 
 - Allure reports.
 - JUnit XML results.
 - Playwright traces and screenshots when configured.
 
-Test results must be updated after execution. Documented automation does not imply a passing result.
+The documented results reflect the successful full cross-browser run and do not imply the outcome of future executions.

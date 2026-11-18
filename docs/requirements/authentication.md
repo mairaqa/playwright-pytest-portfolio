@@ -3,7 +3,7 @@
 **Module:** Authentication  
 **Application:** The Internet — Form Authentication  
 **Version:** 1.0  
-**Status:** Draft — Pending validation
+**Status:** Approved
 
 ## 1. Purpose
 
@@ -131,4 +131,4 @@ These requirements are derived from the expected behavior of the demonstration a
 
 They are not an externally approved product specification.
 
-Exact application messages and navigation behavior must be validated against the target environment before requirements are marked as approved.
+Application messages and navigation behavior were verified against the target environment in the successful cross-browser run recorded in the traceability matrix.
