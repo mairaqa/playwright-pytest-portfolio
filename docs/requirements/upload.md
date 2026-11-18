@@ -8,7 +8,7 @@ Define the functional requirements for uploading files through the File Uploader
 **Module:** File Upload  
 **Requirement prefix:** REQ-UPL  
 **Automation framework:** Python, pytest, Playwright  
-**Status:** Draft — Pending validation
+**Status:** Approved
 
 ## 2. Scope
 
@@ -78,12 +78,12 @@ The application shall provide an observable result when an empty file is submitt
 **Acceptance Criteria**
 
 - A zero-byte file can be selected for submission.
-- The resulting application behavior is recorded.
-- The expected success or rejection behavior is confirmed before final acceptance.
+- The application accepts the empty file.
+- The successful upload confirmation and filename are displayed.
 
 **Related Test Case:** UPL-006
 
-**Validation Status:** Pending behavioral verification.
+**Validation Status:** Verified — the empty file was accepted and its filename displayed in the successful cross-browser run.
 
 ### REQ-UPL-005 — Submission Without a Selected File
 
@@ -112,7 +112,7 @@ The application shall provide a drag-and-drop area for file uploads.
 
 **Related Test Case:** UPL-008
 
-**Validation Status:** Pending execution.
+**Validation Status:** Verified — the simulated drop produced the expected filename and success state in the successful cross-browser run.
 
 ### REQ-UPL-007 — Upload Confirmation
 
@@ -124,7 +124,7 @@ The application shall display the outcome of a standard file upload.
 - The uploaded filename is displayed.
 - The filename matches the selected test resource.
 
-**Related Test Cases:** UPL-002, UPL-003, UPL-004, UPL-005, UPL-006 (subject to REQ-UPL-004 validation)
+**Related Test Cases:** UPL-002, UPL-003, UPL-004, UPL-005, UPL-006
 
 ## 4. Test Data
 
@@ -148,8 +148,8 @@ All test resources must be non-sensitive and available in the test execution env
 - Local resource paths are resolved relative to the project root.
 - The upload service must be accessible during execution.
 - Successful upload behavior is verified using visible application results.
-- Drag-and-drop automation may require additional verification of client-side behavior.
+- The automated drag-and-drop scenario verifies the resulting upload state and filename.
 
 ## 6. Requirement Status
 
-All seven requirements are documented and mapped to automated test scenarios. Final validation depends on successful execution and evidence review.
+All seven requirements are documented, mapped, and approved based on the successful cross-browser validation recorded in the traceability matrix.

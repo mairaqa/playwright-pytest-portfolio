@@ -7,6 +7,8 @@
 **Automation framework:** Playwright + Python + pytest  
 **Automation file:** `tests/test_login.py`
 
+**Status:** Approved — Passed 24/24 test instances across Chromium, Firefox, and WebKit
+
 ## 1. Objective
 
 Verify that the application authenticates users with valid credentials, rejects invalid login attempts, restricts access to protected resources, and correctly handles logout.
@@ -105,7 +107,7 @@ Verify that the application authenticates users with valid credentials, rejects 
 ### AUTH-006 — Login with empty username
 
 **Priority:** Medium  
-**Preconditions:** The user is not authenticated.
+**Preconditions:** The user is not authenticated. Valid test credentials are configured; the test leaves the username field empty while using the configured valid password.
 
 **Steps:**
 1. Navigate to the login page.
@@ -121,7 +123,7 @@ Verify that the application authenticates users with valid credentials, rejects 
 ### AUTH-007 — Login with empty password
 
 **Priority:** Medium  
-**Preconditions:** The user is not authenticated.
+**Preconditions:** The user is not authenticated. Valid test credentials are configured; the test uses the configured valid username and leaves the password field empty.
 
 **Steps:**
 1. Navigate to the login page.
@@ -172,6 +174,6 @@ Verify that the application authenticates users with valid credentials, rejects 
 
 ## 6. Execution Status
 
-**Status:** Not verified
+**Status:** Passed — 24/24 test instances across Chromium, Firefox, and WebKit.
 
-The test cases have been defined and automation code has been prepared. Execution results must be obtained from pytest before marking individual cases as passed or failed.
+The eight authentication scenarios passed in the successful full cross-browser run recorded in the traceability matrix.

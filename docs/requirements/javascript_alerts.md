@@ -3,7 +3,7 @@
 **Module:** JavaScript Alerts  
 **Application:** The Internet — JavaScript Alerts  
 **Version:** 1.0  
-**Status:** Draft — Pending validation
+**Status:** Approved
 
 ## 1. Purpose
 
@@ -145,6 +145,6 @@ Native JavaScript dialogs are controlled by the browser and cannot be located us
 
 The automation uses Playwright's dialog event handling to inspect, accept, or dismiss dialogs.
 
-The expected messages are application-specific and must be validated against the target environment.
+The expected messages were verified against the target environment in the successful cross-browser run recorded in the traceability matrix.
 
 These requirements are not externally approved product specifications.

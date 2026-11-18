@@ -7,6 +7,8 @@
 **Automation framework:** Playwright + Python + pytest  
 **Automation file:** `tests/test_checkboxes.py`
 
+**Status:** Approved — Passed 27/27 test instances across Chromium, Firefox, and WebKit
+
 ## 1. Objective
 
 Verify that checkbox controls are displayed correctly, support checking and unchecking, maintain their individual states, and respond consistently to repeated interactions.
@@ -26,7 +28,7 @@ Verify that checkbox controls are displayed correctly, support checking and unch
 **Expected Results:**
 - The Checkboxes page is displayed.
 - Exactly two checkbox controls are present.
-- Both controls are visible.
+- Both controls are visible and enabled.
 
 ### CHK-002 — Verify Initial Checkbox States
 

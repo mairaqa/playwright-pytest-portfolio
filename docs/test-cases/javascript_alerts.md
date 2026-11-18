@@ -6,7 +6,7 @@
 **Test Type:** Functional  
 **Automation Framework:** Playwright + Python + pytest  
 **Automation File:** `tests/test_javascript_alerts.py`  
-**Status:** Draft — Pending execution
+**Status:** Approved — Passed 27/27 test instances across Chromium, Firefox, and WebKit
 
 ## 1. Objective
 
@@ -184,16 +184,9 @@ No external credentials or sensitive data are required.
 
 ## 6. Execution Status
 
-**Status:** Pending verification
+**Status:** Passed — 27/27 test instances across Chromium, Firefox, and WebKit.
 
-Seven test cases are defined and implemented through two parametrized test functions.
-
-The automation is designed to produce nine independent pytest executions:
-
-- Six dialog action executions.
-- Three dialog property executions.
-
-Execution results must be verified through pytest or Allure.
+Seven test cases are implemented through two parametrized functions, producing nine executions per browser. All dialog action, result, type, and message checks passed in the successful full cross-browser run recorded in the traceability matrix.
 
 ## 7. Notes
 

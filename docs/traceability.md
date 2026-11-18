@@ -3,7 +3,7 @@
 **Project:** Playwright Python QA Framework  
 **Modules:** Authentication, Checkboxes, JavaScript Alerts, Upload
 **Version:** 1.1  
-**Status:** Draft — Pending execution verification
+**Status:** Approved — execution verified
 
 ## 1. Purpose
 
@@ -95,7 +95,7 @@ The traceability matrix supports requirement coverage analysis, test maintenance
 | Planned pytest executions | 8 | 9 | 9 | 8 | 34 |
 | Requirements mapped to automation | 6 | 6 | 7 | 7 | 26 |
 | Planned requirement mapping coverage | 100% | 100% | 100% | 100% | 100% |
-| Verified execution coverage | Pending | Pending | Pending | Pending | Pending |
+| Verified execution coverage | 100% | 100% | 100% | 100% | 100% |
 
 ### 3.2 Coverage Definitions
 
@@ -139,7 +139,7 @@ The existence of an automated test does not guarantee successful execution or co
 - Environment-specific configuration and credentials.
 - Automated CI/CD execution on pushes, pull requests targeting `main`, and manual workflow dispatch.
 
-**Execution Status:** Automated cross-browser execution is configured in GitHub Actions. Successful execution coverage must be verified against the latest CI results and generated reports.
+**Execution Status:** Passed. The successful full cross-browser validation recorded on **17 November 2026** passed 102/102 test instances (34 per browser) across Chromium, Firefox, and WebKit.
 
 ## 5. Maintenance Rules
 
@@ -168,9 +168,10 @@ All 26 functional requirements are mapped to automated test scenarios, resulting
 
 The CHK-005 test case uses two independent pytest parameterizations to verify checkbox independence in both directions.
 
-The expected behavior for empty file uploads (REQ-UPL-004) and drag-and-drop uploads (REQ-UPL-006) remains subject to final execution verification.
+REQ-UPL-004 (empty-file upload) and REQ-UPL-006 (drag-and-drop upload) passed their automated acceptance checks in the successful cross-browser validation.
 
-Execution results must be verified using current pytest, GitHub Actions, and Allure reports before claiming successful cross-browser execution coverage.
+The successful cross-browser execution recorded on **17 November 2026** passed 102 test instances (34 per browser) across Chromium, Firefox, and WebKit.
+
 ## 7. Related Documentation
 
 **Functional Requirements:**

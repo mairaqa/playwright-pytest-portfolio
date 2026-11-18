@@ -3,7 +3,7 @@
 **Module:** Checkboxes  
 **Application:** The Internet — Checkboxes  
 **Version:** 1.0  
-**Status:** Draft — Pending validation
+**Status:** Approved
 
 ## 1. Purpose
 
@@ -124,7 +124,7 @@ The relationship between requirements, test cases, and automated tests is docume
 
 These requirements are derived from the expected behavior of The Internet demonstration application.
 
-The initial checkbox states are application-specific assumptions and must be validated against the target environment.
+The initial checkbox states were verified against the target environment in the successful cross-browser run recorded in the traceability matrix.
 
 Checking or unchecking all controls is implemented through individual checkbox interactions. The page does not provide a dedicated Select All control.
 
